@@ -22,9 +22,9 @@ Step 1: Shopping cart
 - Make reasonable assumptions about the inputs to your solution; for example, many candidates take a list of strings as input
  
 Step 2: Simple offers
-- The shop decides to introduce two new offers
-  buy one, get one free on Apples
-  3 for the price of 2 on Oranges
+- The shop decides to introduce two new offers:
+ - buy one, get one free on Apples
+ - 3 for the price of 2 on Oranges
 
 Setup
 -----
@@ -49,3 +49,11 @@ Hopefully all (unit) "specs" will pass and you can now open up IntelliJ and star
 
 The Code
 --------
+
+Step 1: Shopping cart (tagged as Step 1)
+
+CheckoutSpec is the starting point, that has examples covering the stated behaviour.
+
+The ShoppingCart is a simple case (domain) class and items such as Apples, Oranges are represented as case objects. Why? I did first code these as case classes with "price" declared in an items's constructor. This is fine for different types of say apples with varying prices, but the requirements/behaviour only state "apple" and "orange", so I wanted a single price per item. And why not choose an Enumeration? Habit I guess, related to using Akka. And why case objects and not just objects? That comes down to more of a preference, but if these objects did not need serialization, and performance was an issue, then objects would be preferred.
+
+A final note regarding money. As can be seen, from the implementation, Checkout, and domain objects, that I have immediately chosen BigDecimal. This is far better than using Double, but in a real application, one should chose a 3rd party such as Joda Time, or even better, Squants.
