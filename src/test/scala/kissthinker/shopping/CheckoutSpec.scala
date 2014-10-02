@@ -28,5 +28,9 @@ class CheckoutSpec extends Specification {
     "£2.05 for 3 apples and 1 orange" in {
       costOf(ShoppingCart(Apple, Apple, Orange, Apple)) mustEqual 2.05
     }
+
+    "cost 20p for 1 banana" in {
+      costOf(ShoppingCart(Banana)) mustEqual 0.20
+    }
   }
 }

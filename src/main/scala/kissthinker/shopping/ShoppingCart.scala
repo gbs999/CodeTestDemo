@@ -13,3 +13,7 @@ case object Apple extends Item {
 case object Orange extends Item {
   val price = BigDecimal(0.25)
 }
+
+case object Banana extends Item {
+  val price = BigDecimal(0.20)
+}

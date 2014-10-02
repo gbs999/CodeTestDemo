@@ -16,6 +16,33 @@ class CheckoutOffersSpec extends Specification {
       math.floor(oranges.size / 3) * Orange.price
     }
 
+  val applesAndBananasDiscount: ShoppingCart => Discount =
+    shoppingCart => {
+      val applesAndBananas = shoppingCart.items collect {
+        case a: Apple.type => a
+        case b: Banana.type => b
+      }
+
+      applesAndBananas.map(_.price)
+                      .sorted
+                      .take(applesAndBananas.size / 2)
+                      .sum
+    }
+
+  "Apple and banana discounts" should {
+    "be given for 2 bananas" in {
+      applesAndBananasDiscount(ShoppingCart(Banana, Banana)) mustEqual 0.20
+    }
+
+    "be given for 1 banana and 1 apple where the banana is free" in {
+      applesAndBananasDiscount(ShoppingCart(Apple, Banana)) mustEqual 0.20
+    }
+
+    "be given for 2 bananas and 4 apples taking the cheaper ones for free" in {
+      applesAndBananasDiscount(ShoppingCart(Apple, Banana, Apple, Apple, Apple, Banana)) mustEqual 1.00
+    }
+  }
+
   "Apple discounts" should {
     "be given for apples" in {
       applesDiscount(ShoppingCart(Apple, Apple)) mustEqual 0.60
@@ -96,6 +123,16 @@ class CheckoutOffersSpec extends Specification {
   "buy apples and oranges on offer" should {
     "cost £3.05 for 5 apples and 7 oranges" in {
       costOf(ShoppingCart(Apple, Apple, Apple, Apple, Apple, Orange, Orange, Orange, Orange, Orange, Orange, Orange), applesDiscount, orangesDiscount) mustEqual 3.05
+    }
+  }
+
+  "buy apples and bananas on offer" should {
+    "cost £1.80 for 4 apples and 2 bananas" in {
+      costOf(ShoppingCart(Apple, Banana, Apple, Apple, Apple, Banana), applesAndBananasDiscount) mustEqual 1.80
+    }
+
+    "cost £2.40 for 5 apples and 2 bananas" in {
+      costOf(ShoppingCart(Apple, Banana, Apple, Apple, Apple, Banana, Apple), applesAndBananasDiscount) mustEqual 2.40
     }
   }
 }
