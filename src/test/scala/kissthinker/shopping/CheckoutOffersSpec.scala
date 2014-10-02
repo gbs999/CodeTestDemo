@@ -19,8 +19,7 @@ class CheckoutOffersSpec extends Specification {
   val applesAndBananasDiscount: ShoppingCart => Discount =
     shoppingCart => {
       val applesAndBananas = shoppingCart.items collect {
-        case a: Apple.type => a
-        case b: Banana.type => b
+        case item @ (Apple | Banana) => item
       }
 
       applesAndBananas.map(_.price)
