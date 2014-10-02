@@ -6,13 +6,13 @@ import Checkout._
 class CheckoutOffersSpec extends Specification {
   val applesDiscount: ShoppingCart => Discount =
     shoppingCart => {
-      val apples = shoppingCart.items collect { case a: Apple.type => a }
+      val apples = shoppingCart.items collect { case a @ Apple => a }
       math.floor(apples.size / 2) * Apple.price
     }
 
   val orangesDiscount: ShoppingCart => Discount =
     shoppingCart => {
-      val oranges = shoppingCart.items collect { case o: Orange.type => o }
+      val oranges = shoppingCart.items collect { case o @ Orange => o }
       math.floor(oranges.size / 3) * Orange.price
     }
 
