@@ -18,14 +18,11 @@ class CheckoutOffersSpec extends Specification {
 
   val applesAndBananasDiscount: ShoppingCart => Discount =
     shoppingCart => {
-      val applesAndBananas = shoppingCart.items collect {
-        case item @ (Apple | Banana) => item
+      val prices = shoppingCart.items collect {
+        case item @ (Apple | Banana) => item.price
       }
 
-      applesAndBananas.map(_.price)
-                      .sorted
-                      .take(applesAndBananas.size / 2)
-                      .sum
+      prices.sorted.take(prices.size / 2).sum
     }
 
   "Apple and banana discounts" should {

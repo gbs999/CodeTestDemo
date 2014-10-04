@@ -2,7 +2,7 @@ package kissthinker.shopping
 
 case class ShoppingCart(items: Item*)
 
-trait Item {
+sealed trait Item {
   val price: BigDecimal
 }
 
